@@ -1,0 +1,47 @@
+#75. Sort Colors   
+def sortColors(nums) -> None:
+    """
+    Do not return anything, modify nums in-place instead.
+    """
+    start=0
+    end=len(nums)-1
+    cur_index=0
+    
+    while start<=end and cur_index<=end:
+        if nums[cur_index]==0:
+            #swap,always put 0 at start
+            nums[cur_index]=nums[start]
+            nums[start]=0
+            start+=1
+            cur_index+=1
+        elif nums[cur_index]==2:
+            nums[cur_index]=nums[end]
+            nums[end]=2
+            #我们不能increment cur_index here, eg. [1,2,0],we swap 2 and 0 =>[1,0,2]but we will skip 0 if we do cur_index+=1,then cur_index=1+1=2,end=1, end the loop, return [1,0,2].
+            #but if we don't change cur_index:cur_index=1, end=1, cur_index<=end, nums[cur_index]==0 => cur_index=1, start=0, swap=>[0,1,2] 
+            
+            #cur_index+=1
+            end-=1
+        else:
+            # for 1,do nothing
+            cur_index+=1
+            
+#455. Assign Cookies          
+def findContentChildren(g, s):
+    # 先对g, s两个数组进行排序
+    # 贪心算法
+    # 贪心思想1 优先满足需求因子较小的孩子。因为如果较小需求的孩子无法被满足，则之后的较大的需求更不可能能被满足了。
+    #贪心思想2 尽量用较小的糖果去优先满足孩子。
+    g.sort()
+    s.sort()
+    gi=0
+    si=0
+    while gi<len(g) and si<len(s):
+        if g[gi]<=s[si]:
+            gi+=1;
+        #g=[1,2,3],s=[3]
+        # output:1
+        # you should give each child at most one cookie.Your goal is to maximize the number of your content children
+        si+=1;#所以每次都要si+1，因为就算s[si]==3,也只能分给一个人，3是指一块饼干的size，不是指3块饼干
+    
+    return gi
